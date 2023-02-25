@@ -137,6 +137,9 @@ if [ "$1" = "-help" ]; then
     echo "  pdfFinder.sh -history"
     echo "  pdfFinder.sh -help"
     echo ""
+    echo "Code by P0THESE"
+    exit 0
+fi
 
 #The main script part start here ----------------------------------------------
 
