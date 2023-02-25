@@ -93,6 +93,12 @@ if [ -n "$keyword" ]; then
 
     #if the selected option is not empty and not equal to "No results found.", we open the pdf file
     if [ -n "$selected_option" ] && [ "$selected_option" != "No results found." ]; then
+        #If the file is not found, we display an error message
+        if [ ! -f "$selected_option" ]; then
+            echo "File not found. Exiting script."
+            echo "File not found. Exiting script." >> error.log
+            exit 1
+        fi
         xdg-open "$selected_option"
     fi
 fi
