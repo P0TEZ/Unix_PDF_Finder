@@ -107,6 +107,13 @@ if [ "$1" = "-removeDir" ]; then
     fi
 fi
 
+#if the parameter "-listDir" is passed, we display the content of the configuration file
+if [ "$1" = "-listDir" ]; then
+    echo "Displaying configuration file content."
+    echo "Displaying configuration file content." >> error.log
+    cat "$config_file"
+    exit 0
+fi
 
 #display the content of the configuration file (for debugging)
 #echo "Configuration file content:"
