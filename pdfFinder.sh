@@ -52,15 +52,15 @@ keyword=$(rofi -dmenu -p "Enter keyword:")
 # Search keyword in PDF files and dump the results in a text file
 search_pdfs "$keyword"
 
-# Rofi prompt to present the results
-result=$(rofi -dmenu -i -p "Results:" -file "$results_file")
+# Get options from text file
+options=$(cat "$results_file")
 
-# Open the selected PDF
-#find the line in result.txt that contain result and add it to a var name pdfFile mae sure to have only one result
-pdfFile=$(grep -m 1 "$result" "$results_file")
+# Prompt user to select an option using Rofi
+selected_option=$(echo "$options" | rofi -dmenu -p "Select an option:")
 
-echo "Opening PDF file: $pdfFile"
+# Print the selected option to the terminal
+echo "Selected option: $selected_option"
 
-if [ -n "$result" ]; then
-    xdg-open "$pdfFile"
+if [ -n "$selected_option" ]; then
+    xdg-open "$selected_option"
 fi
