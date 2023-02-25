@@ -2,13 +2,27 @@
 
 # Configuration file path
 config_file="$HOME/.config/pdf_search/config.txt"
+# History file path
+history_file="$HOME/.config/pdf_search/history.txt"
 
 # Check if configuration file exists
 if [ -f "$config_file" ]; then
-    #echo "Configuration file found."
+    echo "Configuration file found."
 else
     echo "Configuration file not found. Exiting script."
+    echo "Configuration file not found. Exiting script." >> error.log
     exit 1
+fi
+
+# Check if history file exists
+if [ -f "$history_file" ]; then
+    echo "History file found."
+else
+    #if not we create it
+    echo "History file not found. Creating it."
+    echo "History file not found. Creating it." >> error.log
+    mkdir -p "$HOME/.config/pdf_search"
+    touch "$history_file"
 fi
 
 #display the content of the configuration file (for debugging)
@@ -48,20 +62,32 @@ search_pdfs() {
 }
 
 # Rofi prompt to ask for keyword
-keyword=$(rofi -dmenu -p "Enter keyword:")
+#keyword=$(rofi -dmenu -p "Enter keyword:")
+# Get history of previous searches
+history=$(cat "$history_file")
 
-# Search keyword in PDF files and dump the results in a text file
-search_pdfs "$keyword"
+# Rofi prompt to ask for keyword
+keyword=$(echo -e "$history" | rofi -dmenu -p "Enter keyword or select a previous search:")
 
-# Get options from text file
-options=$(cat "$results_file")
+if [ -n "$keyword" ]; then
+    # Add the keyword to the history file if it's not already there
+    if ! grep -q "$keyword" "$history_file"; then
+        echo "$keyword" >> "$history_file"
+    fi
 
-# Prompt user to select an option using Rofi
-selected_option=$(echo "$options" | rofi -dmenu -p "Select a pdf to open:")
+    # Search keyword in PDF files and dump the results in a text file
+    search_pdfs "$keyword"
 
-# Print the selected option to the terminal (for debugging)
-#echo "Selected option: $selected_option"
+    # Get options from text file
+    options=$(cat "$results_file")
 
-if [ -n "$selected_option" ]; then
-    xdg-open "$selected_option"
+    # Prompt user to select an option using Rofi
+    selected_option=$(echo "$options" | rofi -dmenu -p "Select a pdf to open:")
+
+    # Print the selected option to the terminal (for debugging)
+    #echo "Selected option: $selected_option"
+
+    if [ -n "$selected_option" ]; then
+        xdg-open "$selected_option"
+    fi
 fi
