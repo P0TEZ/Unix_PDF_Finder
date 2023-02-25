@@ -190,8 +190,6 @@ search_pdfs() {
     rg -zli "$keyword" ${pdf_files[@]} >> "$results_file" 2>> error.log
 }
 
-# Rofi prompt to ask for keyword
-#keyword=$(rofi -dmenu -p "Enter keyword:")
 # Get history of previous searches
 history=$(cat "$history_file")
 
