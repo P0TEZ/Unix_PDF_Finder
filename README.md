@@ -83,7 +83,3 @@ sudo apt install ripgrep
 ## **Installation**
 
 To install the script, clone the repository and copy the script to a directory in your PATH.
-
-## **License**
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
