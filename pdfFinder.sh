@@ -82,12 +82,17 @@ if [ -n "$keyword" ]; then
     options=$(cat "$results_file")
 
     # Prompt user to select an option using Rofi
+    #if options is empty, we display a message
+    if [ -z "$options" ]; then
+        options="No results found."
+    fi
     selected_option=$(echo "$options" | rofi -dmenu -p "Select a pdf to open:")
 
     # Print the selected option to the terminal (for debugging)
     #echo "Selected option: $selected_option"
 
-    if [ -n "$selected_option" ]; then
+    #if the selected option is not empty and not equal to "No results found.", we open the pdf file
+    if [ -n "$selected_option" ] && [ "$selected_option" != "No results found." ]; then
         xdg-open "$selected_option"
     fi
 fi
