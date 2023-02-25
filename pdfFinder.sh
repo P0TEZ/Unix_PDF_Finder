@@ -30,7 +30,7 @@ get_pdf_files() {
     echo "${pdf_files[@]}"
 }
 
-echo "Searching for PDF files..."
+echo "\nSearching for PDF files..."
 pdf_files=$(get_pdf_files)
 echo "PDF files found: $pdf_files"
 
@@ -38,14 +38,12 @@ echo "PDF files found: $pdf_files"
 search_pdfs() {
     keyword="$1"
     results_file="results.txt"
+    # emply the results file
+    > "$results_file"
+
+    # Search keyword in PDF files
     pdf_files=$(get_pdf_files)
-    for pdf_file in "${pdf_files[@]}"; do
-        if pdfgrep -iH "$keyword" "$pdf_file" >> "$results_file"; then
-            : # do nothing
-        else
-            echo "Error searching in $pdf_file" >> error.log
-        fi
-    done
+    rg -zli "$keyword" ${pdf_files[@]} >> "$results_file" 2>> error.log
 }
 
 # Rofi prompt to ask for keyword
@@ -55,9 +53,14 @@ keyword=$(rofi -dmenu -p "Enter keyword:")
 search_pdfs "$keyword"
 
 # Rofi prompt to present the results
-result=$(rofi -dmenu -p "Results:" -file "$results_file")
+result=$(rofi -dmenu -i -p "Results:" -file "$results_file")
 
 # Open the selected PDF
+#find the line in result.txt that contain result and add it to a var name pdfFile mae sure to have only one result
+pdfFile=$(grep -m 1 "$result" "$results_file")
+
+echo "Opening PDF file: $pdfFile"
+
 if [ -n "$result" ]; then
-    xdg-open "$result"
+    xdg-open "$pdfFile"
 fi
