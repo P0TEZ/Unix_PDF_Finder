@@ -26,6 +26,21 @@ else
     touch "$history_file"
 fi
 
+#check if nofi and ripgrep are installed
+if ! command -v nofi &> /dev/null
+then
+    echo "nofi could not be found. Please install it."
+    echo "nofi could not be found. Please install it." >> error.log
+    exit 1
+fi
+
+if ! command -v rg &> /dev/null
+then
+    echo "ripgrep could not be found. Please install it."
+    echo "ripgrep could not be found. Please install it." >> error.log
+    exit 1
+fi
+
 #if the the parameter "-resetConfig" is passed, we reset the configuration file
 if [ "$1" = "-resetConfig" ]; then
     echo "Resetting configuration file."
