@@ -115,11 +115,28 @@ if [ "$1" = "-listDir" ]; then
     exit 0
 fi
 
-#display the content of the configuration file (for debugging)
-#echo "Configuration file content:"
-#cat "$config_file"
-
-
+#if the parameter "-help" is passed, we display the help message
+if [ "$1" = "-help" ]; then
+    echo "Usage: pdfFinder.sh [OPTION] [FOLDER]"
+    echo "Search for a keyword in PDF files in the folders specified in the configuration file."
+    echo ""
+    echo "Options:"
+    echo "  -addDir [FOLDER]      Add a folder to the configuration file."
+    echo "  -removeDir [FOLDER]   Remove a folder from the configuration file."
+    echo "  -listDir              Display the content of the configuration file."
+    echo "  -resetConfig          Reset the configuration file."
+    echo "  -resetHistory         Reset the history file."
+    echo "  -history              Display the content of the history file."
+    echo "  -help                 Display this help message."
+    echo ""
+    echo "Examples:"
+    echo "  pdfFinder.sh -addDir /home/user/Documents"
+    echo "  pdfFinder.sh -removeDir /home/user/Documents"
+    echo "  pdfFinder.sh -resetConfig"
+    echo "  pdfFinder.sh -resetHistory"
+    echo "  pdfFinder.sh -history"
+    echo "  pdfFinder.sh -help"
+    echo ""
 
 #The main script part start here ----------------------------------------------
 
