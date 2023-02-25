@@ -1,7 +1,19 @@
 #!/bin/bash
 
 # Configuration file path
-config_file="$HOME/.config/pdf_search/config"
+config_file="$HOME/.config/pdf_search/config.txt"
+
+# Check if configuration file exists
+if [ -f "$config_file" ]; then
+    echo "Configuration file found."
+else
+    echo "Configuration file not found. Exiting script."
+    exit 1
+fi
+
+#display the content of the configuration file
+echo "Configuration file content:"
+cat "$config_file"
 
 # Function to get list of PDF files from the folders specified in the config file
 get_pdf_files() {
@@ -17,6 +29,10 @@ get_pdf_files() {
     done < "$config_file"
     echo "${pdf_files[@]}"
 }
+
+echo "Searching for PDF files..."
+pdf_files=$(get_pdf_files)
+echo "PDF files found: $pdf_files"
 
 # Function to search keyword in PDF files and dump the results in a text file
 search_pdfs() {
