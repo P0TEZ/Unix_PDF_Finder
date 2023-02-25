@@ -15,8 +15,8 @@ A bash script to search for a keyword in PDF files in the folders specified in t
 -   `-removeDir [FOLDER]` : Remove a directory from the configuration file.
 -   `-listDir` : List the directories in the configuration file.
 -   `-resetConfig` : Reset the configuration file.
--   `resetHistory` : Reset the history file.
--   `history` : Display the history file.
+-   `-resetHistory` : Reset the history file.
+-   `-history` : Display the history file.
 
 ## **Configuration file**
 
